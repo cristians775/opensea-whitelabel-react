@@ -1,25 +1,49 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useEffect, useState } from "react";
+import { ASSET_URL } from "./constants";
+import logo from "./static/images/logo.png";
+import "./static/styles/App.css";
+import { iframeResizer } from "iframe-resizer";
 
-function App() {
+
+const initialStateCollectionName = "realtok-drop-1";
+
+export function App() {
+  const [collectionName, setCollectionName] = useState(
+    initialStateCollectionName
+  );
+  useEffect(() => {
+    iframeResizer({ log: false }, "#opensea-iframe");
+  }, []);
+
+  const onClick = (collectionName) => {
+    setCollectionName(collectionName);
+  };
+
   return (
     <div className="App">
       <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
+        <div className="App-header">
+          <img src={logo} className="App-logo" alt="logo" />
+          <h4>Realtok</h4>
+        </div>
+        <div className="App-header__drops">
+          <a onClick={() => onClick("realtok-drop-1")}>
+            Drop 1: Buildings
+          </a>
+          <a onClick={() => onClick("realtok-drop-2")}>
+            Drop 2: Buildings
+          </a>
+        </div>
       </header>
+
+      <iframe
+        id="opensea-iframe"
+        title="Embedded OpenSea Marketplace"
+        src={ASSET_URL(collectionName)}
+        width="100%"
+        height="100%"
+        frameBorder="0"
+      ></iframe>
     </div>
   );
 }
-
-export default App;
